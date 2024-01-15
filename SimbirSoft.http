@@ -1,0 +1,6 @@
+@SimbirSoft_HostAddress = http://localhost:5126
+
+GET {{SimbirSoft_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
