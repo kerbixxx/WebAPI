@@ -6,7 +6,7 @@ using SimbirSoft.Services.Interfaces;
 
 namespace SimbirSoft.Controllers
 {
-    [Route("api/accounts]")]
+    [Route("api/accounts")]
     [ApiController]
     public class AccountsController : ControllerBase
     {
