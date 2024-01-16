@@ -18,7 +18,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    options.UseSqlite("Filename = Database.db");
+    options.UseNpgsql("Host=localhost;Port=5432;Database=animal-chipisation;Username=user;Password=password");
     options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 });
 

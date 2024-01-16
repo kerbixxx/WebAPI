@@ -19,8 +19,8 @@ namespace SimbirSoft.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=adnimal-chipisation;Username=user;Password=password");
-            optionsBuilder.UseSqlite("Filename = database.db");
+            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=animal-chipisation;Username=user;Password=password");
+            //optionsBuilder.UseSqlite("Filename = database.db");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
