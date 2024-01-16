@@ -20,24 +20,6 @@ namespace SimbirSoft.Controllers
             _accountRepo = accountRepo;
         }
 
-        //POST - Registration
-        [HttpPost]
-        [Route("registration")]
-        [SwaggerResponse(201, Type = typeof(AccountResponse), Description = "Запрос успешно выполнен")]
-        [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
-        [SwaggerResponse(409, Type = typeof(ProblemDetails), Description = "Аккаунт с таким email уже существует")]
-        public ActionResult Registration(AccountRequest request)
-        {
-            if (!_accountService.IsValid(request)) return BadRequest();
-            if (_accountRepo.FirstOrDefault(x => x.email == request.email) != null) return Conflict();
-
-            //TODO:Запрос от авторизованного аккаунта с ошибкой 403
-            var obj = (Account)request;
-            _accountRepo.Add(obj);
-            _accountRepo.Save();
-            return new JsonResult((AccountResponse)obj);
-        }
-
         //GET - Account
         //[Authorize]
         [SwaggerResponse(200, Type = typeof(AccountResponse), Description = "Запрос успешно выполнен")]
