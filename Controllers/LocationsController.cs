@@ -20,6 +20,10 @@ namespace SimbirSoft.Controllers
         }
 
         [HttpGet("{pointId}")]
+        [SwaggerResponse(200, Type = typeof(AccountResponse), Description = "Запрос успешно выполнен")]
+        [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
+        [SwaggerResponse(401, Type = typeof(ProblemDetails), Description = "Неверные авторизационные данные")]
+        [SwaggerResponse(404, Type = typeof(ProblemDetails), Description = "Точка локации с таким pointId не найдена")]
         public ActionResult GetLocation(long pointId)
         {
             if (pointId <= 0) return BadRequest();

@@ -41,6 +41,10 @@ namespace SimbirSoft.Controllers
         public ActionResult UpdateAccount(AccountRequest request, int accountId)
         {
             if (!_accountService.IsValid(request)) return BadRequest();
+            if (_accountRepo.FirstOrDefault(x => x.email == request.email) != null) return Conflict();
+
+            //TODO : 403 Обновление не своего аккаунта, аккаунт не найден
+
             Account obj = (Account)request;
             obj.Id = accountId;
             _accountRepo.Update(obj);

@@ -22,8 +22,8 @@ namespace SimbirSoft.Models
 
     public class LocationRequest
     {
-        public double latitude;
-        public double longitude;
+        public double latitude { get; set; }
+        public double longitude { get; set; }
 
         public static explicit operator Location(LocationRequest location)
         {
