@@ -29,10 +29,10 @@ namespace SimbirSoft.Controllers
         }
 
         [HttpPost]
-        [SwaggerResponse(201, Type = typeof(AccountResponse), Description = "Запрос успешно выполнен")]
+        [SwaggerResponse(201, Type = typeof(LocationResponse), Description = "Запрос успешно выполнен")]
         [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
         [SwaggerResponse(409, Type = typeof(ProblemDetails), Description = "Точка локации с такими latitude и longitude уже существует")]
-        public ActionResult AddLocation(LocationRequest request)
+        public ActionResult AddLocation([FromBody]LocationRequest request)
         {
             if (!_locationService.IsValid(request)) return BadRequest();
             if (_locationService.IsConflict(request)) return Conflict();
@@ -43,7 +43,7 @@ namespace SimbirSoft.Controllers
         }
 
         [HttpPut("{pointId}")]
-        [SwaggerResponse(200, Type = typeof(AccountResponse), Description = "Запрос успешно выполнен")]
+        [SwaggerResponse(200, Type = typeof(LocationResponse), Description = "Запрос успешно выполнен")]
         [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
         [SwaggerResponse(404, Type = typeof(ProblemDetails), Description = "Точка локации с таким pointId не найдена")]
         [SwaggerResponse(409, Type = typeof(ProblemDetails), Description = "Точка локации с такими latitude и longitude уже существует")]
@@ -60,7 +60,7 @@ namespace SimbirSoft.Controllers
         }
 
         [HttpDelete("{pointId}")]
-        [SwaggerResponse(200, Type = typeof(AccountResponse), Description = "Запрос успешно выполнен")]
+        [SwaggerResponse(200, Type = typeof(LocationResponse), Description = "Запрос успешно выполнен")]
         [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
         [SwaggerResponse(404, Type = typeof(ProblemDetails), Description = "Точка локации с таким pointId не найдена")]
         public ActionResult DeleteLocation(long pointId)

@@ -17,13 +17,18 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-options.UseSqlite("Filename = Database.db"));
+{
+    options.UseSqlite("Filename = Database.db");
+    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+});
 
-builder.Services.AddTransient<IRepository<Account>, Repository<Account>>();
-builder.Services.AddTransient<IAccountService, AccountService>();
-builder.Services.AddTransient<IAccountRepository, AccountRepository>();
-builder.Services.AddTransient<ILocationService, LocationService>();
-builder.Services.AddTransient<ILocationRepository, LocationRepository>();
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<ILocationService, LocationService>();
+builder.Services.AddScoped<ILocationRepository, LocationRepository>();
+builder.Services.AddScoped<IAnimalTypeService, AnimalTypeService>();
+builder.Services.AddScoped<IAnimalTypeRepository, AnimalTypeRepository>();
+
 
 
 

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SimbirSoft.Data;
 
@@ -10,9 +11,11 @@ using SimbirSoft.Data;
 namespace SimbirSoft.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240116064656_dbsetlocation")]
+    partial class dbsetlocation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.1");
@@ -107,7 +110,7 @@ namespace SimbirSoft.Migrations
 
                     b.HasIndex("AnimalId");
 
-                    b.ToTable("AnimalTypes");
+                    b.ToTable("Types");
                 });
 
             modelBuilder.Entity("SimbirSoft.Models.Chipper", b =>

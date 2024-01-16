@@ -26,7 +26,7 @@ namespace SimbirSoft.Controllers
         [SwaggerResponse(201, Type = typeof(AccountResponse), Description = "Запрос успешно выполнен")]
         [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
         [SwaggerResponse(409, Type = typeof(ProblemDetails), Description = "Аккаунт с таким email уже существует")]
-        public ActionResult<AccountResponse> Registration(AccountRequest request)
+        public ActionResult Registration(AccountRequest request)
         {
             if (!_accountService.IsValid(request)) return BadRequest();
             if (_accountRepo.FirstOrDefault(x => x.email == request.email) != null) return Conflict();
@@ -45,7 +45,7 @@ namespace SimbirSoft.Controllers
         [SwaggerResponse(401, Type = typeof(ProblemDetails), Description = "Неверные авторизационные данные")]
         [SwaggerResponse(404, Type = typeof(ProblemDetails), Description = "Аккаунт с таким accountId не найден")]
         [HttpGet("{accountId}")]
-        public ActionResult<Account> GetAccount(int accountId)
+        public ActionResult GetAccount(int accountId)
         {
             if (accountId == 0) return BadRequest();
             var obj = _accountRepo.Get(accountId);
@@ -56,7 +56,7 @@ namespace SimbirSoft.Controllers
         //PUT - Account
         //[Authorize]
         [HttpPut("{accountId}")]
-        public ActionResult<AccountResponse> UpdateAccount(AccountRequest request, int accountId)
+        public ActionResult UpdateAccount(AccountRequest request, int accountId)
         {
             if (!_accountService.IsValid(request)) return BadRequest();
             Account obj = (Account)request;

@@ -33,7 +33,7 @@ namespace SimbirSoft.Controllers
         }
 
         [HttpPost]
-        [SwaggerResponse(201, Type = typeof(AccountResponse), Description = "Запрос успешно выполнен")]
+        [SwaggerResponse(201, Type = typeof(AnimalTypeResponse), Description = "Запрос успешно выполнен")]
         [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
         [SwaggerResponse(409, Type = typeof(ProblemDetails), Description = "Тип животного с таким type уже существует")]
         public ActionResult AddAnimalType(AnimalTypeRequest request)
@@ -46,7 +46,7 @@ namespace SimbirSoft.Controllers
         }
 
         [HttpPut("{typeId}")]
-        [SwaggerResponse(201, Type = typeof(AccountResponse), Description = "Запрос успешно выполнен")]
+        [SwaggerResponse(201, Type = typeof(AnimalTypeResponse), Description = "Запрос успешно выполнен")]
         [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
         [SwaggerResponse(404, Type = typeof(ProblemDetails), Description = "Тип животного с таким typeId не найден")]
         [SwaggerResponse(409, Type = typeof(ProblemDetails), Description = "Тип животного с таким type уже существует")]
@@ -56,9 +56,14 @@ namespace SimbirSoft.Controllers
             if (_animalTypeService.IsConflict(request)) return Conflict();          //409
             var obj = _animalTypeRepo.Get(typeId);
             if (obj == null) return NotFound();                                     //404
-            _animalTypeRepo.Update((AnimalType)request);
-            _animalTypeRepo.Save();
-            return new JsonResult((AnimalTypeResponse)(AnimalType)request);
+            else
+            {
+                obj = (AnimalType)request;
+                obj.Id = typeId;
+                _animalTypeRepo.Update(obj);
+                _animalTypeRepo.Save();
+                return new JsonResult((AnimalTypeResponse)obj);
+            }
         }
 
         [HttpDelete("{typeId}")]
