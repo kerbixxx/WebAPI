@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SimbirSoft.Models;
 using SimbirSoft.Repositories.Interfaces;
 using SimbirSoft.Services.Interfaces;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace SimbirSoft.Controllers
 {
@@ -22,41 +23,47 @@ namespace SimbirSoft.Controllers
         //POST - Registration
         [HttpPost]
         [Route("registration")]
+        [SwaggerResponse(201, Type = typeof(AccountResponse), Description = "Запрос успешно выполнен")]
+        [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
+        [SwaggerResponse(409, Type = typeof(ProblemDetails), Description = "Аккаунт с таким email уже существует")]
         public ActionResult<AccountResponse> Registration(AccountRequest request)
         {
             if (!_accountService.IsValid(request)) return BadRequest();
             if (_accountRepo.FirstOrDefault(x => x.email == request.email) != null) return Conflict();
-            Account obj = new(request.firstName, request.lastName, request.email, request.password);
+
+            //TODO:Запрос от авторизованного аккаунта с ошибкой 403
+            var obj = (Account)request;
             _accountRepo.Add(obj);
             _accountRepo.Save();
-            AccountResponse response = new(obj.Id, obj.firstName, obj.lastName, obj.email);
-            return new JsonResult(response);
+            return new JsonResult((AccountResponse)obj);
         }
 
         //GET - Account
-        [Authorize]
+        //[Authorize]
+        [SwaggerResponse(200, Type = typeof(AccountResponse), Description = "Запрос успешно выполнен")]
+        [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
+        [SwaggerResponse(401, Type = typeof(ProblemDetails), Description = "Неверные авторизационные данные")]
+        [SwaggerResponse(404, Type = typeof(ProblemDetails), Description = "Аккаунт с таким accountId не найден")]
         [HttpGet("{accountId}")]
         public ActionResult<Account> GetAccount(int accountId)
         {
             if (accountId == 0) return BadRequest();
             var obj = _accountRepo.Get(accountId);
             if (obj == null) return NotFound();
-            AccountResponse response = new(obj.Id, obj.firstName, obj.lastName, obj.email);
-            return new JsonResult(response);
+            return new JsonResult((AccountResponse)obj);
         }
 
         //PUT - Account
-        [Authorize]
+        //[Authorize]
         [HttpPut("{accountId}")]
         public ActionResult<AccountResponse> UpdateAccount(AccountRequest request, int accountId)
         {
             if (!_accountService.IsValid(request)) return BadRequest();
-            AccountResponse response = new(accountId, request.firstName, request.lastName, request.email);
-            Account obj = new(request.firstName, request.firstName, request.email, request.password);
+            Account obj = (Account)request;
             obj.Id = accountId;
             _accountRepo.Update(obj);
             _accountRepo.Save();
-            return new JsonResult(response);
+            return new JsonResult((AccountResponse)obj);
 
         }
 
@@ -80,7 +87,7 @@ namespace SimbirSoft.Controllers
 
         //TO DO
         //GET - SearchAccounts
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         [Route("search")]
         public ActionResult<List<AccountResponse>> SearchAccounts([FromQuery] string firstName, [FromQuery] string lastName, [FromQuery] string email, [FromQuery] int from, [FromQuery] int size)

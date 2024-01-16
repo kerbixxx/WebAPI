@@ -15,6 +15,7 @@ namespace SimbirSoft.Data
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Animal> Animals { get; set; }
         public DbSet<Location> Locations { get; set; }
+        public DbSet<Models.AnimalType> Types { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

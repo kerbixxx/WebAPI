@@ -4,7 +4,8 @@ namespace SimbirSoft.Repositories.Interfaces
 {
     public interface IRepository<T> where T : class
     {
-        public T Get(int id);
+        public T Get(int id);        
+        public T Get(long id);
         public void Add(T entity);
         public void Save();
         public void Update(T entity);

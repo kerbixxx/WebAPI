@@ -22,6 +22,10 @@ options.UseSqlite("Filename = Database.db"));
 builder.Services.AddTransient<IRepository<Account>, Repository<Account>>();
 builder.Services.AddTransient<IAccountService, AccountService>();
 builder.Services.AddTransient<IAccountRepository, AccountRepository>();
+builder.Services.AddTransient<ILocationService, LocationService>();
+builder.Services.AddTransient<ILocationRepository, LocationRepository>();
+
+
 
 var app = builder.Build();
 
@@ -32,7 +36,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseMiddleware<AuthenticationMiddleware>();
+//app.UseMiddleware<AuthenticationMiddleware>();
 
 app.UseHttpsRedirection();
 

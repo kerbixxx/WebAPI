@@ -20,6 +20,17 @@ namespace SimbirSoft.Models
             this.email = email;
             this.password = password;
         }
+
+        public static explicit operator AccountResponse(Account account)
+        {
+            return new AccountResponse
+            {
+                Id = account.Id,
+                firstName = account.firstName,
+                lastName = account.lastName,
+                email = account.email
+            };
+        }
     }
 
     public class AccountRequest
@@ -28,6 +39,17 @@ namespace SimbirSoft.Models
         public string lastName { get; set; }
         public string email { get; set; }
         public string password { get; set; }
+
+        public static explicit operator Account(AccountRequest request)
+        {
+            return new Account
+            {
+                firstName = request.firstName,
+                lastName = request.lastName,
+                email = request.email,
+                password = request.password
+            };
+        }
     }
 
     public class AccountResponse
