@@ -7,7 +7,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace SimbirSoft.Controllers
 {
-    [Route("api/accounts")]
+    [Route("accounts")]
     [ApiController]
     public class AccountsController : ControllerBase
     {
@@ -29,7 +29,7 @@ namespace SimbirSoft.Controllers
         [HttpGet("{accountId}")]
         public ActionResult GetAccount(int accountId)
         {
-            if (accountId == 0) return BadRequest();
+            if (accountId <= 0) return BadRequest();
             var obj = _accountRepo.Get(accountId);
             if (obj == null) return NotFound();
             return new JsonResult((AccountResponse)obj);
@@ -38,8 +38,13 @@ namespace SimbirSoft.Controllers
         //PUT - Account
         //[Authorize]
         [HttpPut("{accountId}")]
+        [SwaggerResponse(200, Type = typeof(AccountResponse), Description = "Запрос успешно выполнен")]
+        [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
+        [SwaggerResponse(403, Type = typeof(ProblemDetails), Description = "Аккаунт с таким accountId не найден")]
+        [SwaggerResponse(409, Type = typeof(ProblemDetails), Description = "Аккаунт с таким email уже существует")]
         public ActionResult UpdateAccount(AccountRequest request, int accountId)
         {
+            if(accountId <= 0) return BadRequest();
             if (!_accountService.IsValid(request)) return BadRequest();
             if (_accountRepo.FirstOrDefault(x => x.email == request.email) != null) return Conflict();
 
@@ -55,6 +60,9 @@ namespace SimbirSoft.Controllers
 
         //DELETE - Account
         [HttpDelete("{accountId}")]
+        [SwaggerResponse(200, Type = typeof(AccountResponse), Description = "Запрос успешно выполнен")]
+        [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
+        [SwaggerResponse(403, Type = typeof(ProblemDetails), Description = "Аккаунт с таким accountId не найден")]
         public ActionResult DeleteAccount(int accountId)
         {
             if (accountId == 0) return BadRequest();
@@ -76,6 +84,9 @@ namespace SimbirSoft.Controllers
         //[Authorize]
         [HttpGet]
         [Route("search")]
+        [SwaggerResponse(200, Type = typeof(AccountResponse), Description = "Запрос успешно выполнен")]
+        [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
+        [SwaggerResponse(401, Type = typeof(ProblemDetails), Description = "Неверные авторизационные данные")]
         public ActionResult<List<AccountResponse>> SearchAccounts([FromQuery] string firstName, [FromQuery] string lastName, [FromQuery] string email, [FromQuery] int from, [FromQuery] int size)
         {
             if (size <= 0 || from <= 0) return BadRequest();

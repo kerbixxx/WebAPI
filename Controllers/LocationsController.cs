@@ -6,7 +6,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace SimbirSoft.Controllers
 {
-    [Route("api/locations")]
+    [Route("locations")]
     [ApiController]
     public class LocationsController : ControllerBase
     {
@@ -20,7 +20,7 @@ namespace SimbirSoft.Controllers
         }
 
         [HttpGet("{pointId}")]
-        [SwaggerResponse(200, Type = typeof(AccountResponse), Description = "Запрос успешно выполнен")]
+        [SwaggerResponse(200, Type = typeof(LocationResponse), Description = "Запрос успешно выполнен")]
         [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
         [SwaggerResponse(401, Type = typeof(ProblemDetails), Description = "Неверные авторизационные данные")]
         [SwaggerResponse(404, Type = typeof(ProblemDetails), Description = "Точка локации с таким pointId не найдена")]

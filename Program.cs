@@ -18,7 +18,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    options.UseNpgsql("Host=localhost;Port=5432;Database=animal-chipisation;Username=user;Password=password");
+    //options.UseNpgsql("Host=localhost;Port=5432;Database=animal-chipisation;Username=user;Password=password");
+    options.UseSqlite("Filename = Database.db");
     options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 });
 

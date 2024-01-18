@@ -7,7 +7,6 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace SimbirSoft.Controllers
 {
-    [Route("api/")]
     [ApiController]
     public class MainController : ControllerBase
     {

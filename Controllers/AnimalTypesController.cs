@@ -6,7 +6,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace SimbirSoft.Controllers
 {
-    [Route("api/types")]
+    [Route("types")]
     [ApiController]
     public class AnimalTypesController : ControllerBase
     {
@@ -23,7 +23,7 @@ namespace SimbirSoft.Controllers
         [SwaggerResponse(200, Type = typeof(AnimalTypeResponse), Description = "Запрос успешно выполнен")]
         [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
         [SwaggerResponse(401, Type = typeof(ProblemDetails), Description = "Неверные авторизационные данные")]
-        [SwaggerResponse(404, Type = typeof(ProblemDetails), Description = "Аккаунт с таким accountId не найден")]
+        [SwaggerResponse(404, Type = typeof(ProblemDetails), Description = "Тип животного с таким typeId не найден")]
         public ActionResult GetType(long typeId)
         {
             if (typeId <= 0) return BadRequest();

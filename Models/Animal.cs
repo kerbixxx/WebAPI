@@ -6,6 +6,8 @@ namespace SimbirSoft.Models
     {
         [Key]
         public long Id { get; set; }
+
+        public long[] animalTypesId { get; set; }
         public IEnumerable<AnimalType> animalTypes { get; set; }
         public float weight { get; set; }
         public float length { get; set; }
@@ -16,7 +18,8 @@ namespace SimbirSoft.Models
         public int chipperId { get; set; }
         public Chipper? chipper { get; set; }
         public long chippingLocationId { get; set; }
-        public long[] visiterLocations { get; set; }
+        public long[] visitedLocationsId { get; set; }
+        public IEnumerable<VisitedLocation>? visitedLocations { get; set; }
         public DateTime deathDateTime { get; set; }
     }
 }

@@ -4,7 +4,7 @@ using SimbirSoft.Models;
 
 namespace SimbirSoft.Controllers
 {
-    [Route("api/animals")]
+    [Route("animals")]
     [ApiController]
     public class AnimalsController : ControllerBase
     {
