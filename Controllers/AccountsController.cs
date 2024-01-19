@@ -32,7 +32,7 @@ namespace SimbirSoft.Controllers
             if (accountId <= 0) return BadRequest();
             var obj = _accountRepo.Get(accountId);
             if (obj == null) return NotFound();
-            return new JsonResult((AccountResponse)obj);
+            return Ok(new JsonResult((AccountResponse)obj));
         }
 
         //PUT - Account
@@ -54,7 +54,7 @@ namespace SimbirSoft.Controllers
             obj.Id = accountId;
             _accountRepo.Update(obj);
             _accountRepo.Save();
-            return new JsonResult((AccountResponse)obj);
+            return Ok(new JsonResult((AccountResponse)obj));
 
         }
 
@@ -76,7 +76,7 @@ namespace SimbirSoft.Controllers
             {
                 return Forbid(ex.Message);
             }
-            return new JsonResult(new AccountResponse());
+            return Ok(new JsonResult(new AccountResponse()));
         }
 
         //TO DO
@@ -87,7 +87,7 @@ namespace SimbirSoft.Controllers
         [SwaggerResponse(200, Type = typeof(AccountResponse), Description = "Запрос успешно выполнен")]
         [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
         [SwaggerResponse(401, Type = typeof(ProblemDetails), Description = "Неверные авторизационные данные")]
-        public ActionResult<List<AccountResponse>> SearchAccounts([FromQuery] string firstName, [FromQuery] string lastName, [FromQuery] string email, [FromQuery] int from, [FromQuery] int size)
+        public ActionResult SearchAccounts([FromQuery] string firstName, [FromQuery] string lastName, [FromQuery] string email, [FromQuery] int from, [FromQuery] int size)
         {
             if (size <= 0 || from <= 0) return BadRequest();
             var accounts = _accountRepo.GetAll()
@@ -99,7 +99,7 @@ namespace SimbirSoft.Controllers
             {
                 responses.Add(new AccountResponse(account.Id, account.firstName, account.lastName, account.email));
             }
-            return new JsonResult(_accountService.Sort(responses));
+            return Ok(new JsonResult(_accountService.Sort(responses)));
         }
     }
 }

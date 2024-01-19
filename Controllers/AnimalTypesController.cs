@@ -29,7 +29,7 @@ namespace SimbirSoft.Controllers
             if (typeId <= 0) return BadRequest();
             AnimalType obj = _animalTypeRepo.Get(typeId);
             if (obj == null) return NotFound();
-            return new JsonResult((AnimalTypeResponse)obj);
+            return Ok(new JsonResult((AnimalTypeResponse)obj));
         }
 
         [HttpPost]
@@ -42,7 +42,7 @@ namespace SimbirSoft.Controllers
             if (_animalTypeService.IsConflict(request)) return Conflict();
             _animalTypeRepo.Add((AnimalType)request);
             _animalTypeRepo.Save();
-            return new JsonResult((AnimalTypeResponse)(AnimalType)request);
+            return Ok(new JsonResult((AnimalTypeResponse)(AnimalType)request));
         }
 
         [HttpPut("{typeId}")]
@@ -62,7 +62,7 @@ namespace SimbirSoft.Controllers
                 obj.Id = typeId;
                 _animalTypeRepo.Update(obj);
                 _animalTypeRepo.Save();
-                return new JsonResult((AnimalTypeResponse)obj);
+                return Ok(new JsonResult((AnimalTypeResponse)obj));
             }
         }
 
@@ -74,7 +74,7 @@ namespace SimbirSoft.Controllers
             if (obj == null) return NotFound();
             _animalTypeRepo.Delete(obj);
             _animalTypeRepo.Save();
-            return new JsonResult("Запрос успешно выполнен");
+            return Ok(new JsonResult("Запрос успешно выполнен"));
         }
     }
 }

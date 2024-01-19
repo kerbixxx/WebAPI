@@ -11,4 +11,11 @@ namespace SimbirSoft.Models
         public long locationPointId { get; set; }
         public Location? locationPoint { get; set; }
     }
+
+    public class VisitedLocationResponse
+    {
+        public long Id { get; set; }
+        public DateTime? dateTimeOfVisitLocationPoint { get; set; }
+        public long locationPointId { get; set;}
+    }
 }
