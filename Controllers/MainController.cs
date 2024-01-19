@@ -33,7 +33,7 @@ namespace SimbirSoft.Controllers
             var obj = (Account)request;
             _accountRepo.Add(obj);
             _accountRepo.Save();
-            return Ok(new JsonResult((AccountResponse)obj));
+            return new JsonResult((AccountResponse)obj);
         }
     }
 }

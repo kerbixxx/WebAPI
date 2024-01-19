@@ -18,17 +18,19 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    //options.UseNpgsql("Host=localhost;Port=5432;Database=animal-chipisation;Username=user;Password=password");
-    options.UseSqlite("Filename = Database.db");
+    var connectionString = builder.Configuration.GetConnectionString("PostgreSQL");
+    options.UseNpgsql(connectionString);
     options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 });
 
 builder.Services.AddScoped<IAccountService, AccountService>();
-builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<ILocationService, LocationService>();
-builder.Services.AddScoped<ILocationRepository, LocationRepository>();
 builder.Services.AddScoped<IAnimalTypeService, AnimalTypeService>();
+
 builder.Services.AddScoped<IAnimalTypeRepository, AnimalTypeRepository>();
+builder.Services.AddScoped<ILocationRepository, LocationRepository>();
+builder.Services.AddScoped<IAnimalRepository, AnimalRepository>();
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 
 
 

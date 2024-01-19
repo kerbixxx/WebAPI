@@ -29,7 +29,7 @@ namespace SimbirSoft.Controllers
             if (pointId <= 0) return BadRequest();
             var obj = _locationRepo.Get(pointId);
             if (obj == null) return NotFound();
-            return Ok(new JsonResult((LocationResponse)obj));
+            return new JsonResult((LocationResponse)obj);
         }
 
         [HttpPost]
@@ -43,7 +43,7 @@ namespace SimbirSoft.Controllers
             var obj = (Location)request;
             _locationRepo.Add(obj);
             _locationRepo.Save();
-            return Ok(new JsonResult((LocationResponse)obj));
+            return new JsonResult((LocationResponse)obj);
         }
 
         [HttpPut("{pointId}")]
@@ -60,7 +60,7 @@ namespace SimbirSoft.Controllers
             obj = (Location)request;
             _locationRepo.Update(obj);
             _locationRepo.Save();
-            return Ok(new JsonResult((LocationResponse)obj));
+            return new JsonResult((LocationResponse)obj);
         }
 
         [HttpDelete("{pointId}")]
@@ -74,7 +74,7 @@ namespace SimbirSoft.Controllers
             if (obj == null) return NotFound();
             _locationRepo.Delete(obj);
             _locationRepo.Save();
-            return Ok(new JsonResult("Запрос успешно выполнен"));
+            return new JsonResult("Запрос успешно выполнен");
         }
     }
 }

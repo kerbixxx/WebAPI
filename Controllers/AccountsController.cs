@@ -32,7 +32,7 @@ namespace SimbirSoft.Controllers
             if (accountId <= 0) return BadRequest();
             var obj = _accountRepo.Get(accountId);
             if (obj == null) return NotFound();
-            return Ok(new JsonResult((AccountResponse)obj));
+            return new JsonResult((AccountResponse)obj);
         }
 
         //PUT - Account
@@ -54,7 +54,7 @@ namespace SimbirSoft.Controllers
             obj.Id = accountId;
             _accountRepo.Update(obj);
             _accountRepo.Save();
-            return Ok(new JsonResult((AccountResponse)obj));
+            return new JsonResult((AccountResponse)obj);
 
         }
 
@@ -76,7 +76,7 @@ namespace SimbirSoft.Controllers
             {
                 return Forbid(ex.Message);
             }
-            return Ok(new JsonResult(new AccountResponse()));
+            return new JsonResult(new AccountResponse());
         }
 
         //TO DO
@@ -99,7 +99,7 @@ namespace SimbirSoft.Controllers
             {
                 responses.Add(new AccountResponse(account.Id, account.firstName, account.lastName, account.email));
             }
-            return Ok(new JsonResult(_accountService.Sort(responses)));
+            return new JsonResult(_accountService.Sort(responses));
         }
     }
 }

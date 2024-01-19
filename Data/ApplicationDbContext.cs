@@ -16,11 +16,12 @@ namespace SimbirSoft.Data
         public DbSet<Animal> Animals { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<AnimalType> AnimalTypes { get; set; }
+        public DbSet<VisitedLocation> VisitedLocations { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=animal-chipisation;Username=user;Password=password");
-            optionsBuilder.UseSqlite("Filename = Database.db");
+            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=animal-chipization;Username=user;Password=password");
+            //optionsBuilder.UseSqlite("Filename = Database.db");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

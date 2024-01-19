@@ -2,6 +2,7 @@
 using SimbirSoft.Data;
 using SimbirSoft.Models;
 using SimbirSoft.Repositories.Interfaces;
+using SimbirSoft.Services.Implementations;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Globalization;
 
@@ -28,14 +29,17 @@ namespace SimbirSoft.Controllers
             if (id <= 0) return BadRequest();
             var obj = _animalRepo.Get(id);
             if (obj == null) return NotFound();
-            return Ok(new JsonResult((AnimalResponse)obj));
+            return new JsonResult((AnimalResponse)obj);
         }
 
         [HttpGet]
+        [SwaggerResponse(200, Type = typeof(List<AnimalResponse>), Description = "Запрос успешно выполнен")]
+        [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Проблема валидации")]
+        [SwaggerResponse(401, Type = typeof(ProblemDetails), Description = "Неверные авторизационные данные")]
         public ActionResult SearchAnimals([FromQuery] DateTime startDateTime, [FromQuery] DateTime endDateTime, [FromQuery] int chipperId,
             [FromQuery] long chippingLocationId, [FromQuery] string lifeStatus, [FromQuery] string gender, [FromQuery] int from, [FromQuery] int size)
         {
-            if (from < 0 || size <= 0 || !AreDatesISO0861(startDateTime,endDateTime) || chipperId <= 0 || lifeStatus != "ALIVE" || lifeStatus != "DEAD"
+            if (from < 0 || size <= 0 || !IsDateTime.AreDatesISO0861(startDateTime,endDateTime) || chipperId <= 0 || lifeStatus != "ALIVE" || lifeStatus != "DEAD"
                 || gender != "MALE" || gender != "FEMALE" || gender != "OTHER")
             {
                 return BadRequest();
@@ -52,14 +56,14 @@ namespace SimbirSoft.Controllers
             {
                 objResponses.Add((AnimalResponse)animals[i]);
             }
-            return Ok(new JsonResult(objResponses));
+            return new JsonResult(objResponses);
         }
 
         [HttpGet("{animalId}/locations")]
         public ActionResult GetLocationsForAnimal(int animalId, [FromQuery]DateTime startDateTime, [FromQuery]DateTime endDateTime,
             [FromQuery]int from, [FromQuery]int size)
         {
-            if (animalId <= 0 || from < 0 || size <= 0 || !AreDatesISO0861(startDateTime, endDateTime)) return BadRequest();
+            if (animalId <= 0 || from < 0 || size <= 0 || !IsDateTime.AreDatesISO0861(startDateTime, endDateTime)) return BadRequest();
             var obj = _animalRepo.FirstOrDefault(a=>a.Id == animalId,includeProperties:"VisitedLocations");
             if(obj == null) return NotFound();
             List<VisitedLocationResponse> locations = new();
@@ -69,24 +73,7 @@ namespace SimbirSoft.Controllers
                     locations.Add(new VisitedLocationResponse { Id = location.Id, dateTimeOfVisitLocationPoint = location.dateTimeOfVisitLocationPoint, locationPointId = location.locationPointId});
                 }
             else return NotFound();
-            return Ok(new JsonResult(locations));
-        }
-
-        public bool AreDatesISO0861(DateTime startDateTime, DateTime endDateTime)
-        {
-            string format = "o"; // Round-trip ("O", "o") format specifier
-            CultureInfo culture = CultureInfo.InvariantCulture; // Use the invariant culture
-
-            string dateString1 = startDateTime.ToString(format, culture);
-            string dateString2 = endDateTime.ToString(format, culture);
-
-            DateTime parsedDateTime1;
-            DateTime parsedDateTime2;
-
-            bool isValidParam1 = DateTime.TryParseExact(dateString1, format, culture, DateTimeStyles.RoundtripKind, out parsedDateTime1);
-            bool isValidParam2 = DateTime.TryParseExact(dateString2, format, culture, DateTimeStyles.RoundtripKind, out parsedDateTime2);
-
-            return isValidParam1 && isValidParam2;
+            return new JsonResult(locations);
         }
     }
 }

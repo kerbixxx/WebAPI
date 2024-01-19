@@ -19,17 +19,17 @@ namespace SimbirSoft.Controllers
             _animalTypeService = animalTypeService;
         }
 
-        [HttpGet("{typeId}")]
         [SwaggerResponse(200, Type = typeof(AnimalTypeResponse), Description = "Запрос успешно выполнен")]
         [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
         [SwaggerResponse(401, Type = typeof(ProblemDetails), Description = "Неверные авторизационные данные")]
         [SwaggerResponse(404, Type = typeof(ProblemDetails), Description = "Тип животного с таким typeId не найден")]
+        [HttpGet("{typeId}")]
         public ActionResult GetType(long typeId)
         {
             if (typeId <= 0) return BadRequest();
             AnimalType obj = _animalTypeRepo.Get(typeId);
             if (obj == null) return NotFound();
-            return Ok(new JsonResult((AnimalTypeResponse)obj));
+            return new JsonResult((AnimalTypeResponse)obj);
         }
 
         [HttpPost]
@@ -42,7 +42,7 @@ namespace SimbirSoft.Controllers
             if (_animalTypeService.IsConflict(request)) return Conflict();
             _animalTypeRepo.Add((AnimalType)request);
             _animalTypeRepo.Save();
-            return Ok(new JsonResult((AnimalTypeResponse)(AnimalType)request));
+            return new JsonResult((AnimalTypeResponse)(AnimalType)request);
         }
 
         [HttpPut("{typeId}")]
@@ -62,7 +62,7 @@ namespace SimbirSoft.Controllers
                 obj.Id = typeId;
                 _animalTypeRepo.Update(obj);
                 _animalTypeRepo.Save();
-                return Ok(new JsonResult((AnimalTypeResponse)obj));
+                return new JsonResult((AnimalTypeResponse)obj);
             }
         }
 
@@ -74,7 +74,7 @@ namespace SimbirSoft.Controllers
             if (obj == null) return NotFound();
             _animalTypeRepo.Delete(obj);
             _animalTypeRepo.Save();
-            return Ok(new JsonResult("Запрос успешно выполнен"));
+            return new JsonResult("Запрос успешно выполнен");
         }
     }
 }
