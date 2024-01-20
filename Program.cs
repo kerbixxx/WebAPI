@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using SimbirSoft.Data;
+using SimbirSoft.Middleware;
 using SimbirSoft.Models;
 using SimbirSoft.Repositories.Implementations;
 using SimbirSoft.Repositories.Interfaces;
@@ -33,7 +34,11 @@ builder.Services.AddScoped<ILocationRepository, LocationRepository>();
 builder.Services.AddScoped<IAnimalRepository, AnimalRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddAuthentication("Basic")
+    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("Basic", null);
 
+builder.Services.AddAuthorization();
 
 
 var app = builder.Build();

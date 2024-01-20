@@ -13,7 +13,7 @@ services:
   
   # Сервис для разворачивания контейнера с приложением
   webapi:
-    image: simbirsoft:dev0step
+    image: simbirsoft:dev1step
     ports:
      - "8080:8080"
     depends_on:

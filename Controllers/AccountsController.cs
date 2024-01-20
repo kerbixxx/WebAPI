@@ -28,7 +28,7 @@ namespace SimbirSoft.Controllers
         [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
         [SwaggerResponse(401, Type = typeof(ProblemDetails), Description = "Неверные авторизационные данные")]
         [SwaggerResponse(404, Type = typeof(ProblemDetails), Description = "Аккаунт с таким accountId не найден")]
-        [HttpGet("{accountId}")]
+        [HttpGet("{accountId}", Name = nameof(GetAccount))]
         public ActionResult GetAccount(int accountId)
         {
             if (accountId <= 0) return BadRequest();

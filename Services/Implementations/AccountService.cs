@@ -1,5 +1,6 @@
 ﻿using SimbirSoft.Models;
 using SimbirSoft.Services.Interfaces;
+using System.Text.RegularExpressions;
 
 namespace SimbirSoft.Services.Implementations
 {
@@ -18,6 +19,12 @@ namespace SimbirSoft.Services.Implementations
         public List<AccountResponse> Sort(List<AccountResponse> accountList)
         {
             return accountList.OrderBy(a => a.Id).ToList();
+        }
+
+        public bool IsValidEmail(string email)
+        {
+            Regex emailRegex = new Regex(@"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
+            return emailRegex.IsMatch(email);
         }
     }
 }

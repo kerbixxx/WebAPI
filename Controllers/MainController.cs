@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using SimbirSoft.Models;
 using SimbirSoft.Repositories.Interfaces;
@@ -7,6 +9,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace SimbirSoft.Controllers
 {
+    [AllowAnonymous]
     [ApiController]
     public class MainController : ControllerBase
     {
@@ -27,13 +30,13 @@ namespace SimbirSoft.Controllers
         public ActionResult Registration(AccountRequest request)
         {
             if (!_accountService.IsValid(request)) return BadRequest();
+            if (!_accountService.IsValidEmail(request.email)) return BadRequest();
             if (_accountRepo.FirstOrDefault(x => x.email == request.email) != null) return Conflict();
 
-            //TODO:Запрос от авторизованного аккаунта с ошибкой 403
             var obj = (Account)request;
             _accountRepo.Add(obj);
             _accountRepo.Save();
-            return new JsonResult((AccountResponse)obj);
+            return StatusCode(StatusCodes.Status201Created,(AccountResponse)obj);
         }
     }
 }
