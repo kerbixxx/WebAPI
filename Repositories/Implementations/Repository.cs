@@ -20,8 +20,8 @@ namespace SimbirSoft.Repositories.Implementations
         public T Get(int id)
         {
             return dbSet.Find(id);
-        }    
-        
+        }
+
         public T Get(long id)
         {
             return dbSet.Find(id);

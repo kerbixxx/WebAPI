@@ -44,6 +44,24 @@ namespace SimbirSoft.Models
 
     public class AnimalResponse
     {
+        public AnimalResponse(long id, long[] animalTypesId, float weight, float length, float height, string gender, string lifestatus, DateTime chippingDateTime, int chipperId, long chippingLocationId, long[] visitedLocationsId, DateTime deathDateTime)
+        {
+            Id = id;
+            AnimalTypesId = animalTypesId;
+            Weight = weight;
+            Length = length;
+            Height = height;
+            Gender = gender;
+            LifeStatus = lifestatus;
+            ChippingDateTime = chippingDateTime;
+            ChipperId = chipperId;
+            ChippingLocationId = chippingLocationId;
+            VisitedLocationsId = visitedLocationsId;
+            DeathDateTime = deathDateTime;
+        }
+
+        public AnimalResponse() { }
+
         public long Id { get; set; }
         public long[] AnimalTypes { get; set; }
         public float Weight {  get; set; }
@@ -56,7 +74,7 @@ namespace SimbirSoft.Models
         public long ChippingLocationId { get; set; }
         public long[] VisitedLocations {  get; set; }
         public DateTime DeathDateTime {  get; set; }
-
-
+        public long[] AnimalTypesId { get; }
+        public long[] VisitedLocationsId { get; }
     }
 }

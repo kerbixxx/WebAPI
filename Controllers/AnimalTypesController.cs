@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SimbirSoft.Models;
 using SimbirSoft.Repositories.Interfaces;
 using SimbirSoft.Services.Interfaces;
@@ -6,7 +7,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace SimbirSoft.Controllers
 {
-    [Route("types")]
+    [Route("animals/types")]
     [ApiController]
     public class AnimalTypesController : ControllerBase
     {
@@ -19,6 +20,7 @@ namespace SimbirSoft.Controllers
             _animalTypeService = animalTypeService;
         }
 
+        [Authorize]
         [SwaggerResponse(200, Type = typeof(AnimalTypeResponse), Description = "Запрос успешно выполнен")]
         [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
         [SwaggerResponse(401, Type = typeof(ProblemDetails), Description = "Неверные авторизационные данные")]
@@ -32,6 +34,7 @@ namespace SimbirSoft.Controllers
             return new JsonResult((AnimalTypeResponse)obj);
         }
 
+        [Authorize]
         [HttpPost]
         [SwaggerResponse(201, Type = typeof(AnimalTypeResponse), Description = "Запрос успешно выполнен")]
         [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
@@ -45,6 +48,7 @@ namespace SimbirSoft.Controllers
             return new JsonResult((AnimalTypeResponse)(AnimalType)request);
         }
 
+        [Authorize]
         [HttpPut("{typeId}")]
         [SwaggerResponse(201, Type = typeof(AnimalTypeResponse), Description = "Запрос успешно выполнен")]
         [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
@@ -66,6 +70,7 @@ namespace SimbirSoft.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete("{typeId}")]
         public ActionResult DeleteAnimalType(long typeId)
         {

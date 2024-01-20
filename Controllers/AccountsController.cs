@@ -4,6 +4,8 @@ using SimbirSoft.Models;
 using SimbirSoft.Repositories.Interfaces;
 using SimbirSoft.Services.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
+using SimbirSoft.Repositories;
+using System.Linq;
 
 namespace SimbirSoft.Controllers
 {
@@ -21,7 +23,7 @@ namespace SimbirSoft.Controllers
         }
 
         //GET - Account
-        //[Authorize]
+        [Authorize]
         [SwaggerResponse(200, Type = typeof(AccountResponse), Description = "Запрос успешно выполнен")]
         [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
         [SwaggerResponse(401, Type = typeof(ProblemDetails), Description = "Неверные авторизационные данные")]
@@ -36,7 +38,7 @@ namespace SimbirSoft.Controllers
         }
 
         //PUT - Account
-        //[Authorize]
+        [Authorize]
         [HttpPut("{accountId}")]
         [SwaggerResponse(200, Type = typeof(AccountResponse), Description = "Запрос успешно выполнен")]
         [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
@@ -79,27 +81,52 @@ namespace SimbirSoft.Controllers
             return new JsonResult(new AccountResponse());
         }
 
-        //TO DO
-        //GET - SearchAccounts
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         [Route("search")]
         [SwaggerResponse(200, Type = typeof(AccountResponse), Description = "Запрос успешно выполнен")]
         [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
         [SwaggerResponse(401, Type = typeof(ProblemDetails), Description = "Неверные авторизационные данные")]
-        public ActionResult SearchAccounts([FromQuery] string firstName, [FromQuery] string lastName, [FromQuery] string email, [FromQuery] int from, [FromQuery] int size)
+        public ActionResult SearchAccounts(
+        [FromQuery] string? firstName,
+        [FromQuery] string? lastName,
+        [FromQuery] string? email,
+        [FromQuery] int? from,
+        [FromQuery] int? size) // Установите значения по умолчанию для параметров from и size
         {
-            if (size <= 0 || from <= 0) return BadRequest();
-            var accounts = _accountRepo.GetAll()
-                .Where(a => a.firstName.Contains(firstName))
-                .Where(a => a.lastName.Contains(lastName))
-                .Where(a => a.email.Contains(email));
-            List<AccountResponse> responses = new();
-            foreach (var account in accounts)
+            if (size <= 0 || from < 0) return BadRequest();
+            if (size == null) size = 10;
+            if (from == null) from = 0;
+            var accounts = _accountRepo.GetAll();
+
+            // Проверяем, были ли предоставлены параметры поиска
+            if (!string.IsNullOrWhiteSpace(firstName))
             {
-                responses.Add(new AccountResponse(account.Id, account.firstName, account.lastName, account.email));
+                accounts = accounts.Where(a => a.firstName.Contains(firstName)).ToList();
             }
-            return new JsonResult(_accountService.Sort(responses));
+            if (!string.IsNullOrWhiteSpace(lastName))
+            {
+                accounts = accounts.Where(a => a.lastName.Contains(lastName)).ToList();
+            }
+            if (!string.IsNullOrWhiteSpace(email))
+            {
+                accounts = accounts.Where(a => a.email.Contains(email)).ToList();
+            }
+
+            // Если нет ни одного параметра поиска, вернуть первые 10 аккаунтов
+            if (string.IsNullOrWhiteSpace(firstName) &&
+                string.IsNullOrWhiteSpace(lastName) &&
+                string.IsNullOrWhiteSpace(email))
+            {
+                accounts = accounts.Take(10).ToList();
+            }
+
+            // Применяем пагинацию
+            accounts = accounts.Skip((int)from).Take((int)size).ToList();
+
+            var accountResponses = accounts.Select(a => new AccountResponse(a.Id, a.firstName, a.lastName, a.email)).ToList();
+
+            return new JsonResult(accountResponses);
         }
     }
 }

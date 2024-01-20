@@ -1,6 +1,6 @@
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using SimbirSoft.Data;
-using SimbirSoft.Middleware;
 using SimbirSoft.Models;
 using SimbirSoft.Repositories.Implementations;
 using SimbirSoft.Repositories.Interfaces;
@@ -18,8 +18,9 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    var connectionString = builder.Configuration.GetConnectionString("PostgreSQL");
-    options.UseNpgsql(connectionString);
+    var connectionString = builder.Configuration.GetConnectionString("SQLite");
+    //options.UseNpgsql(connectionString);
+    options.UseSqlite(connectionString);
     options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 });
 
@@ -43,8 +44,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-//app.UseMiddleware<AuthenticationMiddleware>();
 
 app.UseHttpsRedirection();
 

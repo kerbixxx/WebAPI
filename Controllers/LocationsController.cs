@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SimbirSoft.Models;
 using SimbirSoft.Repositories.Interfaces;
 using SimbirSoft.Services.Interfaces;
@@ -19,6 +20,7 @@ namespace SimbirSoft.Controllers
             _locationService = locationService;
         }
 
+        [Authorize]
         [HttpGet("{pointId}")]
         [SwaggerResponse(200, Type = typeof(LocationResponse), Description = "Запрос успешно выполнен")]
         [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
@@ -32,6 +34,7 @@ namespace SimbirSoft.Controllers
             return new JsonResult((LocationResponse)obj);
         }
 
+        [Authorize]
         [HttpPost]
         [SwaggerResponse(201, Type = typeof(LocationResponse), Description = "Запрос успешно выполнен")]
         [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
@@ -46,6 +49,7 @@ namespace SimbirSoft.Controllers
             return new JsonResult((LocationResponse)obj);
         }
 
+        [Authorize]
         [HttpPut("{pointId}")]
         [SwaggerResponse(200, Type = typeof(LocationResponse), Description = "Запрос успешно выполнен")]
         [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
@@ -63,6 +67,7 @@ namespace SimbirSoft.Controllers
             return new JsonResult((LocationResponse)obj);
         }
 
+        [Authorize]
         [HttpDelete("{pointId}")]
         [SwaggerResponse(200, Type = typeof(LocationResponse), Description = "Запрос успешно выполнен")]
         [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
