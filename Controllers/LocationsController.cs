@@ -22,10 +22,6 @@ namespace SimbirSoft.Controllers
 
         [Authorize]
         [HttpGet("{pointId}")]
-        [SwaggerResponse(200, Type = typeof(LocationResponse), Description = "Запрос успешно выполнен")]
-        [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
-        [SwaggerResponse(401, Type = typeof(ProblemDetails), Description = "Неверные авторизационные данные")]
-        [SwaggerResponse(404, Type = typeof(ProblemDetails), Description = "Точка локации с таким pointId не найдена")]
         public ActionResult GetLocation(long pointId)
         {
             if (pointId <= 0) return BadRequest();
@@ -36,9 +32,6 @@ namespace SimbirSoft.Controllers
 
         [Authorize]
         [HttpPost]
-        [SwaggerResponse(201, Type = typeof(LocationResponse), Description = "Запрос успешно выполнен")]
-        [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
-        [SwaggerResponse(409, Type = typeof(ProblemDetails), Description = "Точка локации с такими latitude и longitude уже существует")]
         public ActionResult AddLocation([FromBody]LocationRequest request)
         {
             if (!_locationService.IsValid(request)) return BadRequest();
@@ -51,10 +44,6 @@ namespace SimbirSoft.Controllers
 
         [Authorize]
         [HttpPut("{pointId}")]
-        [SwaggerResponse(200, Type = typeof(LocationResponse), Description = "Запрос успешно выполнен")]
-        [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
-        [SwaggerResponse(404, Type = typeof(ProblemDetails), Description = "Точка локации с таким pointId не найдена")]
-        [SwaggerResponse(409, Type = typeof(ProblemDetails), Description = "Точка локации с такими latitude и longitude уже существует")]
         public ActionResult EditLocation(LocationRequest request, long pointId)
         {
             if (!_locationService.IsValid(request)) return BadRequest();
@@ -69,9 +58,6 @@ namespace SimbirSoft.Controllers
 
         [Authorize]
         [HttpDelete("{pointId}")]
-        [SwaggerResponse(200, Type = typeof(LocationResponse), Description = "Запрос успешно выполнен")]
-        [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
-        [SwaggerResponse(404, Type = typeof(ProblemDetails), Description = "Точка локации с таким pointId не найдена")]
         public ActionResult DeleteLocation(long pointId)
         {
             if(pointId <= 0) return BadRequest();

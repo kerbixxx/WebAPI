@@ -24,10 +24,6 @@ namespace SimbirSoft.Controllers
         //POST - Registration
         [HttpPost]
         [Route("registration")]
-        [SwaggerResponse(201, Type = typeof(AccountResponse), Description = "Запрос успешно выполнен")]
-        [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
-        [SwaggerResponse(403, Type = typeof(ProblemDetails), Description = "Запрос от авторизованного аккаунта")]
-        [SwaggerResponse(409, Type = typeof(ProblemDetails), Description = "Аккаунт с таким email уже существует")]
         public ActionResult Registration(AccountRequest request)
         {
             if (User.Identity.IsAuthenticated) return StatusCode(StatusCodes.Status403Forbidden);

@@ -27,10 +27,6 @@ namespace SimbirSoft.Controllers
 
         //GET - Account
         [Authorize]
-        [SwaggerResponse(200, Type = typeof(AccountResponse), Description = "Запрос успешно выполнен")]
-        [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
-        [SwaggerResponse(401, Type = typeof(ProblemDetails), Description = "Неверные авторизационные данные")]
-        [SwaggerResponse(404, Type = typeof(ProblemDetails), Description = "Аккаунт с таким accountId не найден")]
         [HttpGet("{accountId}", Name = nameof(GetAccount))]
         public ActionResult GetAccount(int accountId)
         {
@@ -43,10 +39,6 @@ namespace SimbirSoft.Controllers
         //PUT - Account
         [Authorize]
         [HttpPut("{accountId}")]
-        [SwaggerResponse(200, Type = typeof(AccountResponse), Description = "Запрос успешно выполнен")]
-        [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
-        [SwaggerResponse(403, Type = typeof(ProblemDetails), Description = "Аккаунт с таким accountId не найден")]
-        [SwaggerResponse(409, Type = typeof(ProblemDetails), Description = "Аккаунт с таким email уже существует")]
         public ActionResult UpdateAccount(AccountRequest request, int accountId)
         {
             if(accountId <= 0) return BadRequest();
@@ -68,9 +60,6 @@ namespace SimbirSoft.Controllers
 
         //DELETE - Account
         [HttpDelete("{accountId}")]
-        [SwaggerResponse(200, Type = typeof(AccountResponse), Description = "Запрос успешно выполнен")]
-        [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
-        [SwaggerResponse(403, Type = typeof(ProblemDetails), Description = "Аккаунт с таким accountId не найден")]
         public ActionResult DeleteAccount(int accountId)
         {
             if (accountId == 0) return BadRequest();
@@ -97,9 +86,6 @@ namespace SimbirSoft.Controllers
         [Authorize]
         [HttpGet]
         [Route("search")]
-        [SwaggerResponse(200, Type = typeof(AccountResponse), Description = "Запрос успешно выполнен")]
-        [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
-        [SwaggerResponse(401, Type = typeof(ProblemDetails), Description = "Неверные авторизационные данные")]
         public ActionResult SearchAccounts(
         [FromQuery] string? firstName,
         [FromQuery] string? lastName,

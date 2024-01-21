@@ -34,10 +34,6 @@ namespace SimbirSoft.Controllers
 
         [Authorize]
         [HttpGet("{animalId}")]
-        [SwaggerResponse(200, Type = typeof(AnimalResponse), Description = "Запрос успешно выполнен")]
-        [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Проблема валидации")]
-        [SwaggerResponse(401, Type = typeof(ProblemDetails), Description = "Неверные авторизационные данные")]
-        [SwaggerResponse(404, Type = typeof(ProblemDetails), Description = "Животное с animalId не найдено")]
         public ActionResult GetAnimal(long animalId)
         {
             if (animalId <= 0) return BadRequest();
@@ -49,10 +45,6 @@ namespace SimbirSoft.Controllers
         [Authorize]
         [HttpGet]
         [Route("search")]
-        [SwaggerResponse(200, Type = typeof(List<AnimalResponse>), Description = "Запрос успешно выполнен")]
-        [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Проблема валидации")]
-        [SwaggerResponse(401, Type = typeof(ProblemDetails), Description = "Неверные авторизационные данные")]
-        [SwaggerResponse(404, Type = typeof(ProblemDetails), Description = "Животное с animalId не найдено")]
         public ActionResult SearchAnimals([FromQuery]DateTime? startDateTime, [FromQuery]DateTime? endDateTime, [FromQuery]int? chipperId,
             [FromQuery]long? chippingLocationId, [FromQuery]string? lifeStatus, [FromQuery]string? gender, [FromQuery]int? from, [FromQuery]int? size)
         {
@@ -79,10 +71,6 @@ namespace SimbirSoft.Controllers
 
         [Authorize]
         [HttpGet("{animalId}/locations")]
-        [HttpGet]
-        [SwaggerResponse(200, Type = typeof(List<AnimalResponse>), Description = "Запрос успешно выполнен")]
-        [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Проблема валидации")]
-        [SwaggerResponse(401, Type = typeof(ProblemDetails), Description = "Неверные авторизационные данные")]
         public ActionResult GetLocationsForAnimal(long animalId, [FromQuery] DateTime? startDateTime, [FromQuery] DateTime? endDateTime,
             [FromQuery] int? from, [FromQuery] int? size)
         {

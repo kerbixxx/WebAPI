@@ -21,10 +21,6 @@ namespace SimbirSoft.Controllers
         }
 
         [Authorize]
-        [SwaggerResponse(200, Type = typeof(AnimalTypeResponse), Description = "Запрос успешно выполнен")]
-        [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
-        [SwaggerResponse(401, Type = typeof(ProblemDetails), Description = "Неверные авторизационные данные")]
-        [SwaggerResponse(404, Type = typeof(ProblemDetails), Description = "Тип животного с таким typeId не найден")]
         [HttpGet("{typeId}")]
         public ActionResult GetType(long typeId)
         {
@@ -36,9 +32,6 @@ namespace SimbirSoft.Controllers
 
         [Authorize]
         [HttpPost]
-        [SwaggerResponse(201, Type = typeof(AnimalTypeResponse), Description = "Запрос успешно выполнен")]
-        [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
-        [SwaggerResponse(409, Type = typeof(ProblemDetails), Description = "Тип животного с таким type уже существует")]
         public ActionResult AddAnimalType(AnimalTypeRequest request)
         {
             if (request.type == null || request.type == "") return BadRequest();
@@ -50,10 +43,6 @@ namespace SimbirSoft.Controllers
 
         [Authorize]
         [HttpPut("{typeId}")]
-        [SwaggerResponse(201, Type = typeof(AnimalTypeResponse), Description = "Запрос успешно выполнен")]
-        [SwaggerResponse(400, Type = typeof(ProblemDetails), Description = "Ошибка валидации")]
-        [SwaggerResponse(404, Type = typeof(ProblemDetails), Description = "Тип животного с таким typeId не найден")]
-        [SwaggerResponse(409, Type = typeof(ProblemDetails), Description = "Тип животного с таким type уже существует")]
         public ActionResult EditAnimalType(AnimalTypeRequest request, long typeId)
         {
             if (request.type == null || request.type == "") return BadRequest();    //400
