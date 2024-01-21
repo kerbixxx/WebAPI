@@ -13,7 +13,7 @@ services:
   
   # Сервис для разворачивания контейнера с приложением
   webapi:
-    image: simbirsoft:dev1step
+    image: simbirsoft:dev2step
     ports:
      - "8080:8080"
     depends_on:
@@ -33,6 +33,6 @@ services:
     - webapi
     environment:
      SERVER_URL: http://webapi:8080
-     STAGE: 1
+     STAGE: 2
  # all - запуск всех тестов из трёх доступных этапов
  # 0, 1 или 2 - запуск тестов для соответствующего этапа
