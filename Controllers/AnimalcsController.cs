@@ -64,7 +64,7 @@ namespace SimbirSoft.Controllers
             if (startDateTime.HasValue && endDateTime.HasValue)
                 obj = obj.Where(a=>a.chippingDateTime >= startDateTime.Value && a.chippingDateTime <= endDateTime.Value).ToList();
 
-            if (chipperId != null) obj = obj.Where(a => a.AccountId == chipperId).ToList();
+            if (chipperId != null) obj = obj.Where(a => a.chipperId == chipperId).ToList();
             if (!string.IsNullOrWhiteSpace(lifeStatus) || lifeStatus == "ALIVE" || lifeStatus == "DEAD")
                 obj = obj.Where(a => a.lifestatus == lifeStatus).ToList();
             if (chippingLocationId != null) obj = obj.Where(a => a.chippingLocationId == chippingLocationId).ToList();
@@ -73,7 +73,7 @@ namespace SimbirSoft.Controllers
             
             obj = obj.Skip((int)from).Take((int)size).ToList();
             var animalResponses = obj.Select(a => new AnimalResponse(a.Id, a.animalTypesId, a.weight, a.length, a.height, a.gender, a.lifestatus, a.chippingDateTime,
-                a.AccountId, a.chippingLocationId, a.visitedLocationsId, a.deathDateTime)).ToList();
+                a.chipperId, a.chippingLocationId, a.visitedLocationsId, a.deathDateTime)).ToList();
             return new JsonResult(animalResponses);
         }
 
@@ -126,7 +126,7 @@ namespace SimbirSoft.Controllers
             {
                 if (_animalTypeRepo.Get(obj) == null) return NotFound();
             }
-            if (_accountRepo.Get(request.AccountId) == null) return NotFound();
+            if (_accountRepo.Get(request.chipperId) == null) return NotFound();
             if (_locationRepo.Get(request.ChippingLocationId) == null) return NotFound();
             _animalRepo.Add((Animal)request);
             _animalRepo.Save();
@@ -141,7 +141,7 @@ namespace SimbirSoft.Controllers
             {
                 if (_animalTypeRepo.Get(obj) == null) return NotFound();
             }
-            if (_accountRepo.Get(request.AccountId) == null) return NotFound();
+            if (_accountRepo.Get(request.chipperId) == null) return NotFound();
             if (_locationRepo.Get(request.ChippingLocationId) == null) return NotFound();
             var animal = _animalRepo.Get(animalId);
             animal = (Animal)request;

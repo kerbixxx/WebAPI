@@ -46,7 +46,7 @@ namespace SimbirSoft.Controllers
             var obj = (Location)request;
             _locationRepo.Add(obj);
             _locationRepo.Save();
-            return new JsonResult((LocationResponse)obj);
+            return StatusCode(StatusCodes.Status201Created,(LocationResponse)obj);
         }
 
         [Authorize]

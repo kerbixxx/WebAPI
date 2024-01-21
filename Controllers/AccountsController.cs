@@ -74,7 +74,7 @@ namespace SimbirSoft.Controllers
         public ActionResult DeleteAccount(int accountId)
         {
             if (accountId == 0) return BadRequest();
-            if (_animalRepository.FirstOrDefault(a => a.AccountId == accountId) != null) return BadRequest();
+            if (_animalRepository.FirstOrDefault(a => a.chipperId == accountId) != null) return BadRequest();
 
             //403 Обновление не своего аккаунта, аккаунт не найден
             var requestedAccount = _accountRepo.Get(accountId);

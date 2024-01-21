@@ -19,7 +19,7 @@ services:
     depends_on:
     - database
     environment:
-     - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/animal-chipization
+     - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/animal-chipization
      - POSTGRES_USER=user
      - POSTGRES_PASSWORD=password
 

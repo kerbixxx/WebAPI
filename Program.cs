@@ -19,9 +19,11 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    var connectionString = builder.Configuration.GetConnectionString("SQLite");
-    //options.UseNpgsql(connectionString);
-    options.UseSqlite(connectionString);
+    var connectionString = builder.Configuration.GetConnectionString("PostgreSQL");
+    options.UseNpgsql(connectionString);
+
+    //var connectionString = builder.Configuration.GetConnectionString("SQLite");
+    //options.UseSqlite(connectionString);
     options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 });
 

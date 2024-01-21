@@ -16,8 +16,8 @@ namespace SimbirSoft.Models
         public string lifestatus { get; set; }
         public DateTime chippingDateTime { get; set; }
 
-        public int AccountId { get; set; }
-        public Account? Account{ get; set; }
+        public int chipperId { get; set; }
+        public Account? Chipper{ get; set; }
         public long chippingLocationId { get; set; }
         public long[] visitedLocationsId { get; set; }
         public IEnumerable<VisitedLocation>? VisitedLocations { get; set; }
@@ -34,7 +34,7 @@ namespace SimbirSoft.Models
                 Height = animal.height,
                 Gender = animal.gender,
                 LifeStatus = animal.lifestatus,
-                ChipperId = animal.AccountId,
+                ChipperId = animal.chipperId,
                 ChippingDateTime = animal.chippingDateTime,
                 ChippingLocationId = animal.chippingLocationId,
                 VisitedLocations = animal.visitedLocationsId,
@@ -50,7 +50,7 @@ namespace SimbirSoft.Models
         public float Length { get; set; }
         public float Height { get; set; }
         public string Gender { get; set; }
-        public int AccountId { get; set; }
+        public int chipperId { get; set; }
         public long ChippingLocationId {  get; set; }
 
         public static explicit operator Animal(AnimalRequest request)
@@ -62,7 +62,7 @@ namespace SimbirSoft.Models
                 length = request.Length,
                 height = request.Height,
                 gender = request.Gender,
-                AccountId = request.AccountId,
+                chipperId = request.chipperId,
                 chippingLocationId = request.ChippingLocationId,
                 lifestatus = "ALIVE"
             };

@@ -45,7 +45,7 @@ namespace SimbirSoft.Controllers
             if (_animalTypeService.IsConflict(request)) return Conflict();
             _animalTypeRepo.Add((AnimalType)request);
             _animalTypeRepo.Save();
-            return new JsonResult((AnimalTypeResponse)(AnimalType)request);
+            return StatusCode(StatusCodes.Status201Created,(AnimalTypeResponse)(AnimalType)request);
         }
 
         [Authorize]
