@@ -6,6 +6,7 @@ using SimbirSoft.Services.Interfaces;
 using Swashbuckle.AspNetCore.Annotations;
 using SimbirSoft.Repositories;
 using System.Linq;
+using System.Security.Claims;
 
 namespace SimbirSoft.Controllers
 {
@@ -15,11 +16,13 @@ namespace SimbirSoft.Controllers
     {
         private readonly IAccountService _accountService;
         private readonly IAccountRepository _accountRepo;
+        private readonly IAnimalRepository _animalRepository;
 
-        public AccountsController(IAccountService accountService, IAccountRepository accountRepo)
+        public AccountsController(IAccountService accountService, IAccountRepository accountRepo, IAnimalRepository animalRepository)
         {
             _accountService = accountService;
             _accountRepo = accountRepo;
+            _animalRepository = animalRepository;
         }
 
         //GET - Account
@@ -50,7 +53,10 @@ namespace SimbirSoft.Controllers
             if (!_accountService.IsValid(request)) return BadRequest();
             if (_accountRepo.FirstOrDefault(x => x.email == request.email) != null) return Conflict();
 
-            //TODO : 403 Обновление не своего аккаунта, аккаунт не найден
+            //403 Обновление не своего аккаунта, аккаунт не найден
+            var user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
+            var email = user?.Value;
+            if (email != request.email || _accountRepo.FirstOrDefault(x=>x.email == request.email) == null) return StatusCode(StatusCodes.Status403Forbidden);
 
             Account obj = (Account)request;
             obj.Id = accountId;
@@ -68,7 +74,14 @@ namespace SimbirSoft.Controllers
         public ActionResult DeleteAccount(int accountId)
         {
             if (accountId == 0) return BadRequest();
-            //TODO: АККАУНТ СВЯЗАН С ЖИВОТНЫМ
+            if (_animalRepository.FirstOrDefault(a => a.AccountId == accountId) != null) return BadRequest();
+
+            //403 Обновление не своего аккаунта, аккаунт не найден
+            var requestedAccount = _accountRepo.Get(accountId);
+            var user = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name);
+            var email = user?.Value;
+            if (email != requestedAccount.email || _accountRepo.FirstOrDefault(x => x.email == requestedAccount.email) == null) return StatusCode(StatusCodes.Status403Forbidden);
+
             try
             {
                 var obj = _accountRepo.Get(accountId);

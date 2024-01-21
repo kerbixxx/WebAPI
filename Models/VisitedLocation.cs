@@ -12,6 +12,12 @@ namespace SimbirSoft.Models
         public Location? locationPoint { get; set; }
     }
 
+    public class VisitedLocationRequest
+    {
+        public long visitedLocationPointId { get; set;}
+        public long LocationPointId { get; set; }
+    }
+
     public class VisitedLocationResponse
     {
         public long Id { get; set; }

@@ -15,8 +15,9 @@ namespace SimbirSoft.Models
         public string gender { get; set; }
         public string lifestatus { get; set; }
         public DateTime chippingDateTime { get; set; }
-        public int chipperId { get; set; }
-        public Chipper? chipper { get; set; }
+
+        public int AccountId { get; set; }
+        public Account? Account{ get; set; }
         public long chippingLocationId { get; set; }
         public long[] visitedLocationsId { get; set; }
         public IEnumerable<VisitedLocation>? VisitedLocations { get; set; }
@@ -33,11 +34,37 @@ namespace SimbirSoft.Models
                 Height = animal.height,
                 Gender = animal.gender,
                 LifeStatus = animal.lifestatus,
-                ChipperId = animal.chipperId,
+                ChipperId = animal.AccountId,
                 ChippingDateTime = animal.chippingDateTime,
                 ChippingLocationId = animal.chippingLocationId,
                 VisitedLocations = animal.visitedLocationsId,
                 DeathDateTime = animal.deathDateTime
+            };
+        }
+    }
+
+    public class AnimalRequest
+    {
+        public long[] AnimalTypes { get; set; }
+        public float Weight { get; set; }
+        public float Length { get; set; }
+        public float Height { get; set; }
+        public string Gender { get; set; }
+        public int AccountId { get; set; }
+        public long ChippingLocationId {  get; set; }
+
+        public static explicit operator Animal(AnimalRequest request)
+        {
+            return new Animal
+            {
+                animalTypesId = request.AnimalTypes,
+                weight = request.Weight,
+                length = request.Length,
+                height = request.Height,
+                gender = request.Gender,
+                AccountId = request.AccountId,
+                chippingLocationId = request.ChippingLocationId,
+                lifestatus = "ALIVE"
             };
         }
     }
@@ -76,5 +103,11 @@ namespace SimbirSoft.Models
         public DateTime DeathDateTime {  get; set; }
         public long[] AnimalTypesId { get; }
         public long[] VisitedLocationsId { get; }
+
+    }
+    public class AnimalTypeRequestChange()
+    {
+        public long oldTypeId { get; set; }
+        public long newTypeId { get; set; }
     }
 }

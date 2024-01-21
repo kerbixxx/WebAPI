@@ -28,11 +28,13 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<ILocationService, LocationService>();
 builder.Services.AddScoped<IAnimalTypeService, AnimalTypeService>();
+builder.Services.AddScoped<IAnimalService, AnimalService>();
 
 builder.Services.AddScoped<IAnimalTypeRepository, AnimalTypeRepository>();
 builder.Services.AddScoped<ILocationRepository, LocationRepository>();
 builder.Services.AddScoped<IAnimalRepository, AnimalRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IVisitedLocationRepository, VisitedLocationRepository>();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddAuthentication("Basic")
